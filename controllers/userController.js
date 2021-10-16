@@ -74,9 +74,15 @@ exports.user_login = async (req, res, next) => {
         where: { id: id }
       })
       .then(result => {
-        res.status(201).send({
-            message: "updated successfully."
-          });
+        if (result == 1) {
+            res.send({
+              message: "Updated successfully."
+            });
+          } else {
+            res.send({
+              message: 'Error in data'
+            });
+          }
       })
       .catch(err => {
         console.log(err);
@@ -86,3 +92,27 @@ exports.user_login = async (req, res, next) => {
       });
   }
 
+
+  exports.delete = (req, res, next) => {
+    const id = req.params.id;
+    User.destroy({
+        where: { id: id }
+      })
+      .then(result => {
+        if (result == 1) {
+            res.send({
+              message: "Deleted successfully."
+            });
+          } else {
+            res.send({
+              message: 'No valid entry found for provided ID'
+            });
+          }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  }
