@@ -68,3 +68,21 @@ exports.user_login = async (req, res, next) => {
       });
   }
 
+  exports.update = (req, res, next) => {
+    const id = req.params.id;
+    User.update(req.body, {
+        where: { id: id }
+      })
+      .then(result => {
+        res.status(201).send({
+            message: "updated successfully."
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  }
+

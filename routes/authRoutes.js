@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const verify = require('../verifyToken')
+const verify = require('../verifyToken')
 
 const UserController = require('../controllers/userController')
 
@@ -11,7 +11,7 @@ router.post("/", UserController.register);
 
 router.post("/login", UserController.user_login);
 
-// router.get("/test",verify, UserController.test);
+router.put("/:id",verify, UserController.update);
 
 
 module.exports = router;
