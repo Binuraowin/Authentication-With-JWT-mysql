@@ -16,7 +16,6 @@ exports.register = async (req,res,next) => {
 
     const user = {
         name: req.body.name,
-        email: req.body.email,
         password: hashedPassword,
         id: uuidv4(),
       };
@@ -40,8 +39,8 @@ exports.user_login = async (req, res, next) => {
     const {error} = loginValidation(req.body)
     if(error) return res.status(400).send(error.details[0].message)
 
-    const email = req.query.email;
-    var condition = email ? { temailitle: { [Op.like]: `%${email}%` } } : null;
+    const name = req.query.name;
+    var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
 
     User.findAll({
@@ -50,7 +49,7 @@ exports.user_login = async (req, res, next) => {
       .then(async findResult => {
           if (findResult.length < 0) {
               console.log(findResult)
-            res.status(400).send("email not exist")
+            res.status(400).send("name not exist")
           } else {
               const checkPassword = await bcrypt.compare(req.body.password, findResult[0].password)
               if(checkPassword){
